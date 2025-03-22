@@ -1,0 +1,260 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password Manager</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      /* Custom Styles */
+      body {
+        background-color: #a2c6f9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+      .container {
+        width: 100%;
+        max-width: 1024px;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem 0;
+      }
+      .header img {
+        margin-right: 0.5rem;
+      }
+      .header h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #4a4a4a;
+      }
+      .section {
+        background-color: #1e40af;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .add-password {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .add-password .form-container {
+        width: 50%;
+      }
+      .add-password h2 {
+        color: white;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+      }
+      .input-group {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .input-group i {
+        color: #6b7280;
+        margin-right: 0.5rem;
+      }
+      .input-group input {
+        width: 100%;
+        outline: none;
+      }
+      .button {
+        background-color: #2563eb;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+      }
+      .passwords-section h2 {
+        color: white;
+        font-size: 1.25rem;
+      }
+      .passwords-section .search-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      .search-container input {
+        background-color: white;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        outline: none;
+        margin-right: 1rem;
+      }
+      .search-container i {
+        color: white;
+      }
+      .password-list {
+        color: white;
+      }
+      .password-list li {
+        margin-bottom: 0.5rem;
+      }
+      .no-passwords {
+        text-align: center;
+      }
+      .no-passwords img {
+        margin-bottom: 1rem;
+      }
+
+      #id{
+        width: 200px;
+        height: 200px;
+      }
+      .imgbox{
+        width: 300px;
+        height: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      const { useState } = React;
+
+      function PasswordManager() {
+        const [website, setWebsite] = useState('');
+        const [username, setUsername] = useState('');
+        const [password, setPassword] = useState('');
+        const [passwords, setPasswords] = useState([]);
+        const [showPasswords, setShowPasswords] = useState(false);
+        const [search, setSearch] = useState('');
+
+        const handleAddPassword = (e) => {
+          e.preventDefault();
+          if (website && username && password) {
+            setPasswords([
+              ...passwords,
+              { website, username, password },
+            ]);
+            setWebsite('');
+            setUsername('');
+            setPassword('');
+          }
+        };
+
+        const filteredPasswords = passwords.filter((p) =>
+          p.website.toLowerCase().includes(search.toLowerCase())
+        );
+
+        return (
+          <div className="container">
+            <div className="header">
+              <h1>PASSWORD MANAGER</h1>
+            </div>
+            <div className="section add-password">
+              <div className="form-container">
+                <h2>Add New Password</h2>
+                <form onSubmit={handleAddPassword}>
+                  <div className="input-group">
+                    <i className="fas fa-globe"></i>
+                    <input
+                      type="text"
+                      placeholder="Enter Website"
+                      value={website}
+                      onChange={(e) => setWebsite(e.target.value)}
+                    />
+                  </div>
+                  <div className="input-group">
+                    <i className="fas fa-user"></i>
+                    <input
+                      type="text"
+                      placeholder="Enter Username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                  </div>
+                  <div className="input-group">
+                    <i className="fas fa-lock"></i>
+                    <input
+                      type={showPasswords ? 'text' : 'password'}
+                      placeholder="Enter Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+                  <button type="submit" className="button">Add</button>
+                </form>
+              </div>
+             
+             <div >
+              
+              <img  className="imgbox"
+              src="https://tse2.mm.bing.net/th?id=OIP.KDDbcDUrjrMd-dblrx-h6wHaE8&pid=Api&P=0&h=180"
+              alt="Illustration of a person with a key and a computer screen"
+                style={{ width: '100%', borderRadius: '10px',marginRight: '20px'}}
+              />
+              </div> 
+
+            </div>
+            <div className="section passwords-section">
+              <div className="search-container">
+                <h2>Your Passwords</h2>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                  <i className="fas fa-search"></i>
+                </div>
+              </div>
+              <div className="search-container">
+                <div>{filteredPasswords.length}</div>
+                <div>
+                  <input
+                    type="checkbox"
+                    id="show-passwords"
+                    checked={showPasswords}
+                    onChange={() => setShowPasswords(!showPasswords)}
+                  />
+                  <label htmlFor="show-passwords">Show Passwords</label>
+                </div>
+              </div>
+              {filteredPasswords.length === 0 ? (
+                <div className="no-passwords">
+                  <img
+              src="https://tse2.mm.bing.net/th?id=OIP.KDDbcDUrjrMd-dblrx-h6wHaE8&pid=Api&P=0&h=180"
+                    alt="Illustration of a person standing next to a locked laptop"
+                  />
+                  <p>No Passwords</p>
+                </div>
+              ) : (
+                <ul className="password-list">
+                  {filteredPasswords.map((p, index) => (
+                    <li key={index}>
+                      <strong>Website:</strong> {p.website} <br />
+                      <strong>Username:</strong> {p.username} <br />
+                      <strong>Password:</strong>{' '}
+                      {showPasswords ? p.password : '••••••••'}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<PasswordManager />, document.getElementById('root'));
+    </script>
+  </body>
+</html>
